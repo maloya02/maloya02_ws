@@ -2,12 +2,16 @@
 
 const express = require("express");
 
+const aaRouter = require('./routes/aaRoutes');
+
 const app = express();
 
 // configure server
 
 app.use(express.json());
-app.use(express.urlencoded());
+// app.use(express.urlencoded()); code ni sir
+
+app.use(express.urlencoded({ extended: true })); //code ko
 
 
 // create routes
@@ -19,6 +23,10 @@ app.get('/hello',(req,res) => {
 app.get('/hello-Aadasalla', (req,res) => {
     res.send('Hello AA from World');
 })
+
+//get route
+
+app.use('/', aaRouter);
 
 const PORT = 8000
 app.listen(PORT, () => {
