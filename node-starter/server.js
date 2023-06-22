@@ -27,7 +27,6 @@ app.get('/hello-Aadasalla', (req,res) => {
 //get route
 
 require("./routes/tutorial.routes")(app);
-require("./routes/comments.routes")(app);
 
 app.use('/', aaRouter);
 
