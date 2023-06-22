@@ -33,3 +33,15 @@ module.exports = (app) => {
 // View- Pages (SPA)
 // Controller - Business Logic
 // Routes - Address/Endpoint 
+
+// resource group --> RESTful --> CRUD
+  // 1. create
+  // 2. read
+  // 3. update
+  // 4. delete
+
+  // HTTP VERBS
+  // post *Create
+  // get *Read (getOne, getAll)
+  // put *Update (put|patch)
+  // delete *Deletehtt
