@@ -2,16 +2,16 @@
 
 const express = require("express");
 
-const aaRouter = require('./routes/aaRoutes');
+// const aaRouter = require('./routes/aaRoutes');
 
 const app = express();
 
 // configure server
 
 app.use(express.json());
-// app.use(express.urlencoded()); code ni sir
+app.use(express.urlencoded()); 
 
-app.use(express.urlencoded({ extended: true })); //code ko
+// app.use(express.urlencoded({ extended: true })); 
 
 
 // create routes
@@ -26,7 +26,10 @@ app.get('/hello-Aadasalla', (req,res) => {
 
 //get route
 
-app.use('/', aaRouter);
+require("./routes/tutorial.routes")(app);
+require("./routes/comments.routes")(app);
+
+// app.use('/', aaRouter);
 
 const PORT = 8000
 app.listen(PORT, () => {
