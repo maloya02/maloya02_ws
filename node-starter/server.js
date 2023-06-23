@@ -13,7 +13,6 @@ app.use(express.json());
 
 app.use(express.json({ extended: true })); 
 
-
 // create routes
 app.get('/hello',(req,res) => {
     res.send('Hello Aa From World')
