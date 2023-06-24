@@ -63,56 +63,94 @@ for (let i = 0; i < 10; i++) {
 // FOREACH
 // WHILE
 // DO WHILE
-
-// FOR of --> Iteratables [ARRAY]
-let crayons = ['Red', 'Green', 'BLue'];
+// FOR OF --> Iteratables (Array, Collection, )
+let crayons = [1, true, 'Red', 'Green', 'Blue'];
 let colors = [];
 let vivids = new Array(5);
 
 console.log('After Array!');
-// For (key of iteratables) {statement|break|continue}
-for (crayolala of crayons) {
-    console.log(typeof crayolala);
-    console.log(`Current crayola is colored ${crayolala}`);
+
+// for (key of Iterables) {statement|break|continue;}
+for(crayola of crayons) {
+  console.log(typeof crayola);
+  console.log(`Current crayola is colored ${crayola}`);
 }
 
-console.log('After Array');
-
-// FOR --------
+// FOR IN --> Object keys/values
 let creature = {};
 let person = new Object();
 let human = {
-    hairColor: 'Red',
-    hands: 2,
-    eyeColor: 'Brown',
-    alive: true,
-    height: 175,
-    weight: 55,
-    eat: () => { this.weight += 1; }
+  hairColor: 'pink',
+  hands: 2,
+  eyeColor: 'brown', 
+  alive: true,
+  height: 175,
+  weight: 67,
+  eat: function() {this.weight += 1;}
 };
 
 console.log('After Object!');
-// for in
-for (key in human) {
-    console.log(`${key}: Current value is ${human[key]}`);
+
+// for (key in object) { statement|break|continue;};
+for(key in human) {
+  console.log(`${key}: Current value is ${human[key]}`)
+}
+
+let car = {
+  model: 'Tesla',
+  year: '2022',
+  accessories: {
+    seat: 4,
+    windows: 4,
+    battery: 3000,
+    lights: 27,
+    tires: 3
+  } 
+};
+
+console.log('\n'+'*'.repeat(30));
+for(key in car) {
+  //console.log(typeof key);
+  if(car[key] == '[object Object]') {
+    console.log(key+':');
+    for(key2 in car[key]) {
+      console.log(`\t${key2}: Current value is ${car[key][key2]}`);
+    }
+  } else {
+    console.log(`${key}: Current value is ${car[key]}`);
+  } 
+}
+
+console.log('\n'+'*'.repeat(30));
+for(key in car.accessories) {
+  console.log(`${key}: Current value is ${car[key]}`);
 }
 
 
-
-// While Loop
+console.log('\n'+'*'.repeat(30));
+// While Loop --- O or More RUN
 // init counter;
-// while (condition) {statement|break|continue; delta(counter)}
+// while (condition) {statement|break|continue; delta(counter);}
 let counter = 10;
-while (counter > 0) {
-    console.log(`Current value of index/counter is ${counter}`);
-    counter--;
+while(counter > 0) {
+  console.log(`Current value of index/counter is ${counter}`);
+  counter--;
 }
 
-// DO WHILE
+// while(1) {
+//   // implem
+// }
+
+// while(true) {
+//   // implem
+// }
+
+console.log('\n'+'*'.repeat(30));
+// DO WHILE --- AT LEAST ONCE
 // init counter;
-// do {statement|break|continue; delta(counter) while (counter)}
-let tally = 10;
+// do {statement|break|continue; delta(counter)} while (condition)
+let tally = -1;
 do {
-    console.log(`Current value of index/counter is ${tally}`);
-    tally--
+  console.log(`Current value of tally is ${tally}`);
+  tally--;
 } while (tally > 0);
