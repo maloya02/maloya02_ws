@@ -74,3 +74,4 @@ meat.sort();
 revive.reverse();
 
 console.log('After Array Sort');
+
