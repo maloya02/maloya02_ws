@@ -29,6 +29,9 @@ if (title) {
     title.style.cssText = 'color: violet !important; font-size:30px';
     title.style.cssText = 'border: 5px solid pink !important';
     // 3rd syntaxt
+    const colorStyle = ['color', 'blue', 'important'];
+    title.style.setProperty(...colorStyle);
+
     title.style.setProperty('color','blue','important');
     title.style.setProperty('border','5px solid red','important');
     
