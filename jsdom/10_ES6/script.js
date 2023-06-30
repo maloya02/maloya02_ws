@@ -46,11 +46,28 @@ const fruits = [{content:'apple'}, {content:'mango'}, {content:'pineapple'}];
 let [red, green, yellow] = fruits; // cant rename
 // spread operator = ...
 const colors = ['red','purple','green','blue','black'];
-const crayonBox = {...colors};
-const crayonWheel = [...colors];
+const crayonBox = {...colors}; //obj
+const crayonWheel = [...colors]; //arr
 
 const logger = (...msg) => {
     console.log(msg);
 } 
 
+const multipy = (...operands) => {
+    return operands.reduce((a,aa) => a*aa);
+    let result;
+    for(let i=0;i < operands.length; i++){
+        result =+ operands[i];
+    }
+    return result;
+}
+
+const sum = (...addends) => {
+    return addends.reduce((a,aa) => a+aa);
+    let result;
+    for(let i=0;i < addends.length; i++){
+        result =+ addends[i];
+    }
+    return result;
+}
 console.log('after var val');
