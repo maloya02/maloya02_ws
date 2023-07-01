@@ -1,9 +1,9 @@
+// load envi var.
+if(process.env.NODE_ENV !== 'production') require('dotenv').config();
+
 // entry point
-
 const express = require("express");
-
 const aaRouter = require('./routes/aaRoutes');
-
 const app = express();
 
 // configure server
@@ -29,7 +29,7 @@ require("./routes/tutorial.routes")(app);
 
 app.use('/', aaRouter);
 
-const PORT = 8000
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
     console.log(`Server is currently running on port ${PORT}`);
 });
