@@ -143,5 +143,10 @@ exports.deleteAll = (req, res) => {//http://localhost:8000/api/tutorials/
 }
 //delete 1
 exports.deleteOne = (req, res) => {//http://localhost:8000/api/tutorials/{id}
-    res.send('Delete ONE req received')
+    // res.send('Delete ONE req received')
+    const id = req.params.id;
+
+    Tutorial.destroy({where: {id:id}})
+    .then()
+    .catch()
 }
