@@ -23,6 +23,13 @@ app.get('/hello-Aadasalla', (req,res) => {
     res.send('Hello AA from World');
 })
 
+// db connection
+const db = require('./models/index'); // ./models/index // ./models/index.js //./models
+db.sequelize.sync().then(() => {
+    console.log(`Senced db.`);
+}).catch(error => {
+    console.error(`Encounter an error during db sync, error:${error}`)
+});
 //get route
 
 require("./routes/tutorial.routes")(app);

@@ -1,6 +1,7 @@
 module.exports = {
     HOST: process.env.HOST || 'localhost',
-    USER: process.env.DBUSER || 'root',
+    USER: process.env.DBUSER || 'aadasalla',
+    PASSWORD: process.env.DBPASSWORD || '',
     DB: process.env.DB || 'test',
     DIALECT: process.env.DIALECT || 'mysql',
     POOL: {
