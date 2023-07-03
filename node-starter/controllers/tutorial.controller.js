@@ -12,141 +12,188 @@ const Tutorial = db.tutorials;
 //create
 exports.create = (req, res) => {//http://localhost:8000/api/tutorials/
     // res.send('POST request Received.')
-    const body = req.body
-    if (!req.body.title || !req.body.description) {
+    if(!req.body.title || !req.body.description) {
         res.status(400).send({
-            message: `title or description cannot be blank`,
-            success: false,
-            errorCode: `ERR9001`
+          message: `Title or Description cannot be empty.`,
+          success: false,
+          errorCode: `ERR9001`
         });
         return;
-    }
-    const { title, description, published } = req.body;
-    const tutorial = {
+      }
+    
+      // create object in memory
+      const {title, description, published} = req.body;
+      const tutorial = {
         title, description, published
-    };
-
-    Tutorial.create(tutorial)
+      };
+    
+      // save to db
+      Tutorial.create(tutorial)
         .then(data => {
-            res.status(200).send({
-                success: true,
-                message: 'Tutorial saved succesfully.',
-                data: data
-            });
-
+          res.status(200).send({
+            success: true,
+            message: 'Tutorial saved successfully.',
+            data: data
+          });
         })
         .catch(error => {
-            res.status(500).send({
-                success: false,
-                message: `saving of tutorial data failed. Error ${error}`,
-                errorCode: `ERR8001`,
-            })
+          res.status(500).send({
+            success: false,
+            message: `Saving of Tutorial data failed. Error: ${error}`,
+            errorCode: `ERR8001`,
+          })
         });
-
-}
+    
+    };
 //get all
 exports.findAll = (req, res) => {//http://localhost:8000/api/tutorials/
     // res.send('Get ALL req received')
-    Tutorial.findAll()
-        .then(data => {
-            res.status(200).send({
-                success: true,
-                data: data
-            });
-
-        })
-        .catch(error => {
-            res.status(500).send({
-                success: false,
-                message: `saving of tutorial data failed. Error ${error}`,
-                errorCode: `ERR8001`,
-            })
-        });
-}
+   // find and respond
+  Tutorial.findAll()
+  .then(data => {
+    res.status(200).send({
+      success: true,
+      data: data
+    });
+  })
+  .catch(error => {
+    res.status(500).send({
+      success: false,
+      message: `Cannot retrieve tutorial records. Error: ${error}`,
+      errorCode: `ERR8002`,
+    })
+  });
+};
 //get 1
 exports.findOne = (req, res) => {//http://localhost:8000/api/tutorials/{id}
     // res.send('Get ONE req received')
-    const id = req.params.id;
+   // find and respond
+  const id = req.params.id;
 
-    Tutorial.findByPk(id)
-        .then(data => {
-            if (data) {
-                res.status(200).send({
-                    success: true,
-                    data: data
-                });
-            } else {
-                res.status(400).send({
-                    success: false,
-                    message: `Cant find tutorial data with id = ${id}`,
-                    errorCode: `ERR7001`
-                });
-            }
-        })
-        .catch(error => {
-            res.status(500).send({
-                success: false,
-                message: `cant retrieve tutorial record. Error ${error}`,
-                errorCode: `ERR8001`,
-            })
-        })
-}
+  Tutorial.findByPk(id)
+    .then(data => {
+      if (data) {
+        res.status(200).send({
+          success: true,
+          data: data
+        });
+      } else {
+        res.status(400).send({
+          success: false,
+          message: `Cannot find tutorial data with id = ${id}`,
+          errorCode: `ERR7001`
+        });
+      }
+    })
+    .catch(error => {
+      res.status(500).send({
+        success: false,
+        message: `Cannot retrieve tutorial record. Error: ${error}`,
+        errorCode: `ERR8003`,
+      })
+    });
+
+};
 //update
 exports.update = (req, res) => {//http://localhost:8000/api/tutorials/{id}
     // res.send('Update ONE req received')
-    if (!req.body.title || !req.body.description) {
+   // validate
+  if(!req.body.title || !req.body.description) {
+    res.status(400).send({
+      message: `Title and/or Description cannot be empty during an update.`,
+      success: false,
+      errorCode: `ERR9002`
+    });
+    return;
+  }
+
+  // get id
+  const id = req.params.id;
+
+  // construct object
+  const {title, description, published} = req.body;
+  const tutorial = {
+    title, description, published
+  }; 
+
+  // save to db
+  Tutorial.update(tutorial, {where: {id: id}})
+    .then(num => {
+      if (num && num[0] && num >= 1) {
+        res.status(200).send({
+          success: true,
+          message: 'Tutorial updated successfully.',
+          data: {
+            id: id,
+            recordsAffected: num && num[0] ? num[0] : 1
+          }
+        });
+      } else {
         res.status(400).send({
-            message: `title and/or description cannot be blank during an update`,
-            success: false,
-            errorCode: `ERR9002`
+          success: false,
+          message: `Cannot find tutorial data with id = ${id}, update data ignored.`,
+          errorCode: `ERR7002`
         });
-        return;
-    }
-    const id = req.params.id;
-
-    const { title, description, published } = req.body;
-    const tutorial = {
-        title, description, published
-    };
-    Tutorial.update(tutorial, { where: { id: id } })
-        .then(num => {
-            if (num => 1) {
-
-                res.status(200).send({
-                    success: true,
-                    message: 'Tutorial updated succesfully.',
-                    data: {
-                        id: id,
-                        recordsAffected: num
-                    }
-                });
-            } else {
-                res.status(500).send({
-                    success: false,
-                    message: `cant find tutorial data with id = ${id}, update data ignored`,
-                    errorCode: `ERR7002`,
-                })
-
-            }
-        })
-        .catch(error => {
-            res.status(500).send({
-                success: false,
-                message: `cant performe update at the momment. Error ${error}`,
-                errorCode: `ERR8004`,
-            })
-        });
-}
+      }
+    })
+    .catch(error => {
+      res.status(500).send({
+        success: false,
+        message: `Cannot perform update at the moment. Error: ${error}`,
+        errorCode: `ERR8004`,
+      })
+    });
+};
 //delete all
 exports.deleteAll = (req, res) => {//http://localhost:8000/api/tutorials/
-    res.send('Delete ALL req received')
-}
+    Tutorial.destroy({where: {}, trucate: true})
+    .then(nums => {
+      res.status(200).send({
+        success: true,
+        message: `${nums} tutorial${nums > 1 ? 's' : ''} deleted successfully.`,
+        data: {
+          recordsAffected: nums
+        }
+      });
+    })
+    .catch(error => {
+      res.status(500).send({
+        success: false,
+        message: `Cannot perform date all at the moment. Error: ${error}`,
+        errorCode: `ERR8005`,
+      })
+    });
+};
 //delete 1
 exports.deleteOne = (req, res) => {//http://localhost:8000/api/tutorials/{id}
-    // res.send('Delete ONE req received')
-    const id = req.params.id;
+   // get id
+  const id = req.params.id;
 
-    Tutorial.destroy({where: {id:id}})
-    .then()
-    .catch()
-}
+  // save to db and respond
+  Tutorial.destroy({ where: {id : id}})
+    .then(num => {
+      if (num >= 1) {
+        res.status(200).send({
+          success: true,
+          message: 'Tutorial deleted successfully.',
+          data: {
+            id: id,
+            recordsAffected: num
+          }
+        });
+      } else {
+        res.status(400).send({
+          success: false,
+          message: `Cannot delete tutorial data with id = ${id}, delete request ignored.`,
+          errorCode: `ERR7003`
+        });
+      }
+    })
+    .catch(error => {
+      res.status(500).send({
+        success: false,
+        message: `Cannot perform deletion at the moment. Error: ${error}`,
+        errorCode: `ERR8006`,
+      })
+    });
+};
